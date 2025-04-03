@@ -1,7 +1,7 @@
 
 
 html, body {
-    background-color: #BFBD9F;
+    background-color: #333;
     color: white;
     margin: 0;
     padding: 0;
@@ -53,10 +53,10 @@ dl dd {
 
 
 .container {
-    width: 1220px;
+    width: 100%;
     margin: 0 auto;
     padding: 20px 0 40px 0;
-    background-color: #BFBD9F;
+    background-color: #333;
 }
 
 .unselectable {
@@ -159,14 +159,14 @@ button.right {
 
 .CodeMirror {
     font: 14px Consolas, Monaco, monospace;
-    width: 1220px;
+    width: 100%;
     margin: 10px auto;
     height: 320px;
 }
 
 .world {
     position: relative;
-    width: 1220px;
+    width: 100%;
     background-color: #333;
     padding: 0;
     overflow: hidden;
