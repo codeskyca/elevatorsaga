@@ -136,6 +136,155 @@
 
 </head>
 <body>
+    <button id="syntax_drawer_toggle" class="syntax-toggle" aria-controls="syntax_drawer" aria-expanded="false">
+        <i class="fa fa-bars"></i> Syntax Help
+    </button>
+    <aside id="syntax_drawer" class="syntax-drawer" aria-hidden="true">
+        <div class="syntax-drawer-header">
+            <h2>Syntax Help</h2>
+            <button id="syntax_drawer_close" type="button">Close</button>
+        </div>
+        <div class="syntax-drawer-body">
+            <p class="syntax-note">Use this panel while solving. Syntax is filtered by current checkpoint.</p>
+            <p id="syntax_level_badge" class="syntax-badge">Level 1 Syntax</p>
+
+            <div class="syntax-card" data-level-min="1" data-level-max="30">
+                <h3>Starter Structure</h3>
+<pre><code>{
+  init: function(elevators, floors) {
+    var elevator = elevators[0];
+  },
+  update: function(dt, elevators, floors) {
+  }
+}</code></pre>
+                <ul class="syntax-points">
+                    <li><code>init(...)</code>: Runs once at challenge start. Set up your rules and event handlers here.</li>
+                    <li><code>update(dt,...)</code>: Runs repeatedly while simulation is active. Use for advanced logic.</li>
+                    <li><code>elevators</code>: Array of elevator objects you can control.</li>
+                    <li><code>floors</code>: Array of floor objects that emit up/down button events.</li>
+                    <li><code>var elevator = elevators[0]</code>: Stores the first elevator in a variable for easy use.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="1" data-level-max="30">
+                <h3>Basic Elevator Events</h3>
+<pre><code>elevator.on("idle", function() {
+  elevator.goToFloor(0);
+});
+
+elevator.on("floor_button_pressed", function(floorNum) {
+  elevator.goToFloor(floorNum);
+});</code></pre>
+                <ul class="syntax-points">
+                    <li><code>.on(event, callback)</code>: Listens for an event and runs your function when it happens.</li>
+                    <li><code>"idle"</code>: Fires when the elevator has no more queued destinations.</li>
+                    <li><code>"floor_button_pressed"</code>: Fires when a passenger presses a floor inside the elevator.</li>
+                    <li><code>floorNum</code>: The exact floor number requested by the passenger.</li>
+                    <li><code>goToFloor(n)</code>: Adds floor <code>n</code> to the elevator’s destination queue.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="4" data-level-max="30">
+                <h3>Basic Floor Events</h3>
+<pre><code>floors[0].on("up_button_pressed", function() {
+  elevator.goToFloor(0);
+});
+
+floors[4].on("down_button_pressed", function() {
+  elevator.goToFloor(4);
+});</code></pre>
+                <ul class="syntax-points">
+                    <li><code>floors[i]</code>: Accesses the floor object at index <code>i</code>.</li>
+                    <li><code>"up_button_pressed"</code>: Someone on that floor wants to go up.</li>
+                    <li><code>"down_button_pressed"</code>: Someone on that floor wants to go down.</li>
+                    <li>In Level 1, writing one line per floor keeps syntax simple and explicit.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="8" data-level-max="30">
+                <h3>Chaining Two Events in One Listener</h3>
+<pre><code>floors[1].on("up_button_pressed down_button_pressed", function() {
+  elevator.goToFloor(1);
+});</code></pre>
+                <ul class="syntax-points">
+                    <li>Put both event names in one string, separated by a space.</li>
+                    <li>The callback runs when either up or down is pressed on that floor.</li>
+                    <li>Useful for middle floors where both directions can be requested.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="1" data-level-max="5">
+                <h3>Level 1 Route Pattern (No Loops)</h3>
+<pre><code>elevator.on("idle", function() {
+  elevator.goToFloor(0);
+  elevator.goToFloor(1);
+  elevator.goToFloor(2);
+  elevator.goToFloor(3);
+  elevator.goToFloor(4);
+});</code></pre>
+                <ul class="syntax-points">
+                    <li>This queues a full route when the elevator becomes idle.</li>
+                    <li>Each <code>goToFloor(...)</code> call is added in order to the queue.</li>
+                    <li>Good for beginner challenges where floors are known ahead of time.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="11" data-level-max="30">
+                <h3>Level 2+ Loop Pattern</h3>
+<pre><code>for (var i = 0; i &lt; floors.length; i++) {
+  elevator.goToFloor(i);
+}</code></pre>
+                <ul class="syntax-points">
+                    <li><code>for (...)</code>: Repeats code while a condition is true.</li>
+                    <li><code>i = 0</code>: Start counter at 0.</li>
+                    <li><code>i &lt; floors.length</code>: Keep going until the last floor index.</li>
+                    <li><code>i++</code>: Increase <code>i</code> by 1 each loop step.</li>
+                    <li>Use this after loops are taught (Level 2+).</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="11" data-level-max="30">
+                <h3>Multiple Elevators</h3>
+<pre><code>var e0 = elevators[0];
+var e1 = elevators[1];
+
+e0.on("idle", function() { e0.goToFloor(0); });
+e1.on("idle", function() { e1.goToFloor(4); });</code></pre>
+                <ul class="syntax-points">
+                    <li>Access elevators by index when you have more than one car.</li>
+                    <li>Give each elevator an idle fallback so both stay active.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="12" data-level-max="30">
+                <h3>Array Iteration (Level 3+)</h3>
+<pre><code>elevators.forEach(function(e) {
+  e.on("floor_button_pressed", function(floorNum) {
+    e.goToFloor(floorNum);
+  });
+});</code></pre>
+                <ul class="syntax-points">
+                    <li><code>forEach</code> runs once for each item in an array.</li>
+                    <li>Useful for attaching similar behavior to all elevators.</li>
+                </ul>
+            </div>
+
+            <div class="syntax-card" data-level-min="16" data-level-max="30">
+                <h3>Passing Floor Optimization</h3>
+<pre><code>elevator.on("passing_floor", function(floorNum, direction) {
+  if (elevator.loadFactor() &lt; 0.8) {
+    elevator.goToFloor(floorNum, true);
+  }
+});</code></pre>
+                <ul class="syntax-points">
+                    <li><code>passing_floor</code> fires while moving between floors.</li>
+                    <li><code>goToFloor(n, true)</code> inserts urgent stops at front of queue.</li>
+                    <li><code>loadFactor()</code> helps avoid stopping when nearly full.</li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
     <div class="container">
         <div class="header">
             <h1 class="left">CodeSky <em class="emphasis-color">Elevator Game</em></h1>

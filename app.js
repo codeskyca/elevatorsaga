@@ -122,6 +122,43 @@ $(function() {
     var tsKey = "elevatorTimeScale";
     var editor = createEditor();
 
+    var $syntaxDrawer = $("#syntax_drawer");
+    var $syntaxToggle = $("#syntax_drawer_toggle");
+    var $syntaxClose = $("#syntax_drawer_close");
+
+    var setSyntaxDrawerOpen = function(isOpen) {
+        $syntaxDrawer.toggleClass("open", isOpen);
+        $syntaxDrawer.attr("aria-hidden", isOpen ? "false" : "true");
+        $syntaxToggle.attr("aria-expanded", isOpen ? "true" : "false");
+    };
+    var updateSyntaxForChallenge = function(challengeIndex) {
+        var levelNum = challengeIndex + 1;
+        var isDemo = levelNum >= challenges.length;
+
+        $(".syntax-card").each(function() {
+            var $card = $(this);
+            var minLevel = parseInt($card.attr("data-level-min"), 10) || 1;
+            var maxLevel = parseInt($card.attr("data-level-max"), 10) || 999;
+            var visible = isDemo ? true : (levelNum >= minLevel && levelNum <= maxLevel);
+            $card.toggle(visible);
+        });
+
+        $("#syntax_level_badge").text(isDemo ? "Demo Syntax (All)" : ("Level " + levelNum + " Syntax"));
+    };
+
+    $syntaxToggle.on("click", function() {
+        setSyntaxDrawerOpen(!$syntaxDrawer.hasClass("open"));
+    });
+    $syntaxClose.on("click", function() {
+        setSyntaxDrawerOpen(false);
+    });
+    $(document).on("keydown", function(e) {
+        if(e.key === "Escape") {
+            setSyntaxDrawerOpen(false);
+        }
+    });
+    setSyntaxDrawerOpen(false);
+
     var params = {};
 
     var $world = $(".innerworld");
@@ -165,6 +202,7 @@ $(function() {
             // TODO: Investigate if memory leaks happen here
         }
         app.currentChallengeIndex = challengeIndex;
+        updateSyntaxForChallenge(challengeIndex);
         app.world = app.worldCreator.createWorld(challenges[challengeIndex].options);
         window.world = app.world;
 

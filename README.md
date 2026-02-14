@@ -2,6 +2,9 @@ Elevator Saga
 ===================
 The elevator programming game
 
+Curriculum checkpoint reference solutions:
+- `CHECKPOINT_SOLUTIONS.md`
+
 [Play it now!](http://play.elevatorsaga.com/)
 
 Or [Run the unit tests](http://play.elevatorsaga.com/test/)
