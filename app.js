@@ -1,6 +1,212 @@
 
 var createEditor = function() {
     var lsKey = "elevatorCrushCode_v5";
+    var currentChallengeIndex = 0;
+
+    var getDefaultCodeForChallenge = function(challengeIndex) {
+        if(challengeIndex <= 1) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(1);",
+                "            elevator.goToFloor(2);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 2) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(1);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(3);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 3) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        if(floors[0]) floors[0].on(\"up_button_pressed\", function() { elevator.goToFloor(0); });",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(1);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(3);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 4 || challengeIndex === 5) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        if(floors[0]) floors[0].on(\"up_button_pressed\", function() { elevator.goToFloor(0); });",
+                "        if(floors[3]) floors[3].on(\"down_button_pressed\", function() { elevator.goToFloor(3); });",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(1);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(3);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 6) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        if(floors[1]) {",
+                "            floors[1].on(\"up_button_pressed\", function() { elevator.goToFloor(1); });",
+                "            floors[1].on(\"down_button_pressed\", function() { elevator.goToFloor(1); });",
+                "        }",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(4);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 7) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        if(floors[1]) floors[1].on(\"up_button_pressed down_button_pressed\", function() { elevator.goToFloor(1); });",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(4);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex === 8 || challengeIndex === 9) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        function enqueueIfMissing(floorNum) {",
+                "            if(elevator.destinationQueue.indexOf(floorNum) === -1) {",
+                "                elevator.goToFloor(floorNum);",
+                "            }",
+                "        }",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            enqueueIfMissing(floorNum);",
+                "        });",
+                "        if(floors[1]) floors[1].on(\"up_button_pressed down_button_pressed\", function() { enqueueIfMissing(1); });",
+                "        elevator.on(\"idle\", function() {",
+                "            enqueueIfMissing(0);",
+                "            enqueueIfMissing(2);",
+                "            enqueueIfMissing(4);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        if(challengeIndex <= 9) {
+            return [
+                "{",
+                "    init: function(elevators, floors) {",
+                "        var elevator = elevators[0];",
+                "        elevator.on(\"floor_button_pressed\", function(floorNum) {",
+                "            elevator.goToFloor(floorNum);",
+                "        });",
+                "        if(floors[0]) {",
+                "            floors[0].on(\"up_button_pressed\", function() {",
+                "                elevator.goToFloor(0);",
+                "            });",
+                "        }",
+                "        elevator.on(\"idle\", function() {",
+                "            elevator.goToFloor(0);",
+                "            elevator.goToFloor(1);",
+                "            elevator.goToFloor(2);",
+                "            elevator.goToFloor(3);",
+                "        });",
+                "    },",
+                "    update: function(dt, elevators, floors) {",
+                "    }",
+                "}"
+            ].join("\n");
+        }
+
+        return [
+            "{",
+            "    init: function(elevators, floors) {",
+            "        elevators.forEach(function(elevator, index) {",
+            "            elevator.on(\"floor_button_pressed\", function(floorNum) {",
+            "                elevator.goToFloor(floorNum);",
+            "            });",
+            "            elevator.on(\"idle\", function() {",
+            "                elevator.goToFloor(index === 0 ? 0 : floors.length - 1);",
+            "            });",
+            "        });",
+            "",
+            "        floors.forEach(function(floor) {",
+            "            floor.on(\"up_button_pressed down_button_pressed\", function() {",
+            "                elevators[0].goToFloor(floor.floorNum());",
+            "            });",
+            "        });",
+            "    },",
+            "    update: function(dt, elevators, floors) {",
+            "    }",
+            "}"
+        ].join("\n");
+    };
 
     var cm = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true,
@@ -39,7 +245,7 @@ var createEditor = function() {
     });
 
     var reset = function() {
-        cm.setValue($("#default-elev-implementation").text().trim());
+        cm.setValue(getDefaultCodeForChallenge(currentChallengeIndex));
     };
     var saveCode = function() {
         localStorage.setItem(lsKey, cm.getValue());
@@ -47,12 +253,9 @@ var createEditor = function() {
         returnObj.trigger("change");
     };
 
-    var existingCode = localStorage.getItem(lsKey);
-    if(existingCode) {
-        cm.setValue(existingCode);
-    } else {
-        reset();
-    }
+    // Always start from challenge default template on page load.
+    // This keeps scaffolding aligned with each challenge.
+    reset();
 
     $("#button_save").click(function() {
         saveCode();
@@ -60,7 +263,7 @@ var createEditor = function() {
     });
 
     $("#button_reset").click(function() {
-        if(confirm("Do you really want to reset to the default implementation?")) {
+        if(confirm("Do you really want to reset to the default implementation for this challenge?")) {
             localStorage.setItem("develevateBackupCode", cm.getValue());
             reset();
         }
@@ -102,6 +305,12 @@ var createEditor = function() {
     returnObj.setDevTestCode = function() {
         cm.setValue($("#devtest-elev-implementation").text().trim());
     }
+    returnObj.setChallengeIndex = function(challengeIndex) {
+        currentChallengeIndex = challengeIndex;
+    };
+    returnObj.resetToChallengeDefault = function() {
+        reset();
+    };
 
     $("#button_apply").click(function() {
         returnObj.trigger("apply_code");
@@ -114,6 +323,48 @@ var createParamsUrl = function(current, overrides) {
     return "#" + _.map(_.merge(current, overrides), function(val, key) {
         return key + "=" + val;
     }).join(",");
+};
+
+var validateCodeForChallenge = function(code, challengeIndex) {
+    // Challenges 1-10 are intentionally scaffolded to practice explicit event wiring.
+    if(challengeIndex <= 9) {
+        var blockedPatterns = [
+            { regex: /\bfor\s*\(/, label: "for loops" },
+            { regex: /\bwhile\s*\(/, label: "while loops" },
+            { regex: /\bdo\s*\{/, label: "do-while loops" },
+            { regex: /\.(forEach|map|filter|reduce|some|every)\s*\(/, label: "array iteration helpers (forEach/map/etc)" },
+            { regex: /\bfloors\s*\[\s*[A-Za-z_$][\w$]*\s*\]/, label: "dynamic floor indexing (floors[i])" },
+            { regex: /\belevators\s*\[\s*[A-Za-z_$][\w$]*\s*\]/, label: "dynamic elevator indexing (elevators[i])" },
+            { regex: /\bfloors\.length\b/, label: "floors.length shortcuts" },
+            { regex: /\belevators\.length\b/, label: "elevators.length shortcuts" }
+        ];
+        var violations = _.chain(blockedPatterns)
+            .filter(function(rule) { return rule.regex.test(code); })
+            .map("label")
+            .uniq()
+            .value();
+
+        if(violations.length) {
+            return "Challenge " + (challengeIndex + 1) + " restriction: use explicit bindings only. Blocked here: " +
+                violations.join(", ") + ". Write direct listeners like floors[1].on(...) and explicit goToFloor(...) calls.";
+        }
+
+        // Challenge-specific concept checks so students cannot solve with idle-only routing.
+        var requiredByChallenge = {
+            2: { pattern: /floor_button_pressed/, message: "Challenge 3 requires using elevator inside-button events (`floor_button_pressed`)." },
+            3: { pattern: /up_button_pressed|down_button_pressed/, message: "Challenge 4 requires at least one floor button listener (`up_button_pressed` or `down_button_pressed`)." },
+            4: { pattern: /up_button_pressed[\s\S]*down_button_pressed|down_button_pressed[\s\S]*up_button_pressed/, message: "Challenge 5 requires both up and down floor event handling." },
+            5: { pattern: /up_button_pressed[\s\S]*down_button_pressed|down_button_pressed[\s\S]*up_button_pressed/, message: "Challenge 6 requires explicit floor-event coverage (both directions used)." },
+            6: { pattern: /\.on\s*\(\s*"up_button_pressed"\s*,[\s\S]*\.on\s*\(\s*"down_button_pressed"\s*,/, message: "Challenge 7 requires separate up/down listeners (no chained events yet)." },
+            7: { pattern: /up_button_pressed\s+down_button_pressed/, message: "Challenge 8 requires chained event syntax: \"up_button_pressed down_button_pressed\"." },
+            8: { pattern: /destinationQueue\.indexOf|enqueueIfMissing/, message: "Challenge 9 requires duplicate-request control (queue de-dup logic)." },
+            9: { pattern: /destinationQueue\.indexOf|enqueueIfMissing/, message: "Challenge 10 requires stable queue handling under repeated calls (keep de-dup logic)." }
+        };
+        if(requiredByChallenge[challengeIndex] && !requiredByChallenge[challengeIndex].pattern.test(code)) {
+            return requiredByChallenge[challengeIndex].message;
+        }
+    }
+    return null;
 };
 
 
@@ -197,12 +448,20 @@ $(function() {
     };
 
     app.startChallenge = function(challengeIndex, autoStart) {
+        app.currentChallengeIndex = challengeIndex;
+        editor.setChallengeIndex(challengeIndex);
+        updateSyntaxForChallenge(challengeIndex);
+
+        var restrictionError = validateCodeForChallenge(editor.getCode(), challengeIndex);
+        if(restrictionError) {
+            editor.trigger("usercode_error", restrictionError);
+            return;
+        }
+
         if(typeof app.world !== "undefined") {
             app.world.unWind();
             // TODO: Investigate if memory leaks happen here
         }
-        app.currentChallengeIndex = challengeIndex;
-        updateSyntaxForChallenge(challengeIndex);
         app.world = app.worldCreator.createWorld(challenges[challengeIndex].options);
         window.world = app.world;
 
@@ -285,6 +544,8 @@ $(function() {
             }
         });
         app.worldController.setTimeScale(timeScale);
+        editor.setChallengeIndex(requestedChallenge);
+        editor.resetToChallengeDefault();
         app.startChallenge(requestedChallenge, autoStart);
     });
 });
